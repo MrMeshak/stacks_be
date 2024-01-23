@@ -6,7 +6,7 @@ export const redisProvider: FactoryProvider<Redis> = {
   useFactory: async () => {
     const redisClient = new Redis({
       host: process.env.REDIS_HOST,
-      port: Number(process.env.PORT),
+      port: Number(process.env.REDIS_PORT),
     });
     return redisClient;
   },
