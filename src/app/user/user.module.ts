@@ -3,7 +3,7 @@ import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { DrizzleModule } from 'src/drizzle/drizzle.module';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import * as schema from '../drizzle/schema';
+import * as schema from '../../drizzle/schema';
 
 @Module({
   imports: [DrizzleModule],
