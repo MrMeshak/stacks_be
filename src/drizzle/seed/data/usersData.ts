@@ -14,7 +14,7 @@ type User = typeof users.$inferInsert;
 
 export async function generateUsersData(): Promise<User[]> {
   const users: User[] = [];
-  const password = await bcrypt.hash('password', 10);
+  const password = await bcrypt.hash('Password#1', 10);
 
   userIds.forEach((id) => {
     const firstName = faker.person.firstName();
