@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  HttpCode,
   HttpException,
   HttpStatus,
   Post,
@@ -22,6 +23,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('/login')
+  @HttpCode(HttpStatus.NO_CONTENT)
   async login(
     @Body() data: LoginDto,
     @Res({ passthrough: true }) res: Response,
@@ -42,7 +44,7 @@ export class AuthController {
           maxAge: JwtExpiry.REFRESH_TOKEN_EXPIRY,
         }),
       ]);
-      return { status: 'success', message: 'login success' };
+      return;
     } catch (error) {
       if (error instanceof InvalidCredentialsError) {
         throw new HttpException(error.message, HttpStatus.UNAUTHORIZED, {
@@ -53,10 +55,11 @@ export class AuthController {
   }
 
   @Post('/signup')
+  @HttpCode(HttpStatus.NO_CONTENT)
   async signup(@Body() data: SignupDto) {
     try {
       await this.authService.signup(data);
-      return { status: 'success', message: 'sign up success' };
+      return;
     } catch (error) {
       if (error instanceof AlreadyExistsError) {
         throw new HttpException(error.message, HttpStatus.CONFLICT, {
@@ -64,5 +67,13 @@ export class AuthController {
         });
       }
     }
+  }
+
+  @Post('/logout')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie('authToken');
+    res.clearCookie('refreshToken');
+    return;
   }
 }
