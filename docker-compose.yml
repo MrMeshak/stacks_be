@@ -6,3 +6,8 @@ services:
     environment:
       POSTGRES_DB: stacks_db
       POSTGRES_HOST_AUTH_METHOD: trust
+  redis_db:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - 6379:6379
