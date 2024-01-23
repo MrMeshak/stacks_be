@@ -50,17 +50,14 @@ export class AuthService {
 
     const hashPassword = await bcrypt.hash(data.password, 10);
 
-    const user = await this.db
-      .insert(users)
-      .values({
-        id: randomUUID(),
-        email: data.email,
-        password: hashPassword,
-        firstName: data.firstName,
-        lastName: data.lastName,
-      })
-      .returning();
+    await this.db.insert(users).values({
+      id: randomUUID(),
+      email: data.email,
+      password: hashPassword,
+      firstName: data.firstName,
+      lastName: data.lastName,
+    });
 
-    return user;
+    return;
   }
 }

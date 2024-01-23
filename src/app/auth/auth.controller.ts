@@ -10,7 +10,10 @@ import cookie from 'cookie';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { SignupDto } from './dto/signup.dto';
-import { InvalidCredentialsError } from 'src/utils/base/errors';
+import {
+  AlreadyExistsError,
+  InvalidCredentialsError,
+} from 'src/utils/base/errors';
 import { Response } from 'express';
 import { JwtExpiry } from 'src/jwt/jwt.service';
 
@@ -51,6 +54,15 @@ export class AuthController {
 
   @Post('/signup')
   async signup(@Body() data: SignupDto) {
-    return { signup: 'Signup endpoint' };
+    try {
+      await this.authService.signup(data);
+      return { status: 'success', message: 'sign up success' };
+    } catch (error) {
+      if (error instanceof AlreadyExistsError) {
+        throw new HttpException(error.message, HttpStatus.CONFLICT, {
+          cause: error,
+        });
+      }
+    }
   }
 }
