@@ -10,8 +10,8 @@ import { generateStacksData } from './data/stacksData';
 import { generateTasksData } from './data/taskData';
 
 const main = async () => {
-  const queryClient = postgres(process.env.DB_URL);
-  const db = drizzle(queryClient, { schema });
+  const migrationClient = postgres(process.env.DB_URL, { max: 1 });
+  const db = drizzle(migrationClient, { schema });
   const usersData = await generateUsersData();
   const projectsData = generateProjectsData();
   const stacksData = generateStacksData();

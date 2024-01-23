@@ -5,7 +5,8 @@ import * as schema from './schema';
 export const drizzleProvider = {
   provide: 'DrizzleClient',
   useFactory: async () => {
-    const queryClient = postgres(process.env.DATABASE_URL);
-    return drizzle(queryClient, { schema });
+    const queryClient = postgres(process.env.DB_URL);
+    const db = drizzle(queryClient, { schema });
+    return db;
   },
 };
