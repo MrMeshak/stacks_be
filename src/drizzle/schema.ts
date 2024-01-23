@@ -9,11 +9,19 @@ import {
   boolean,
 } from 'drizzle-orm/pg-core';
 
+export enum UserStatus {
+  ACTIVE = 'ACTIVE',
+  SUSPENDED = 'SUSPENDED',
+}
+
 export const users = pgTable('users', {
   id: uuid('id').primaryKey(),
 
   email: varchar('email', { length: 256 }).notNull().unique(),
   password: varchar('password', { length: 256 }).notNull(),
+  userStatus: varchar('user_status', { length: 256 })
+    .notNull()
+    .default(UserStatus.ACTIVE),
   firstName: varchar('first_name', { length: 256 }).notNull(),
   lastName: varchar('last_name', { length: 256 }).notNull(),
   createAt: timestamp('created_at').defaultNow().notNull(),
