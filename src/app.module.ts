@@ -3,9 +3,19 @@ import { UserModule } from './app/user/user.module';
 import { AuthModule } from './app/auth/auth.module';
 import { RedisModule } from './redis/redis.module';
 import { AuthMiddleware } from './middleware/auth.middleware';
+import { ProjectModule } from './app/project/project.module';
+import { DrizzleModule } from './drizzle/drizzle.module';
+import { JwtModule } from './jwt/jwt.module';
 
 @Module({
-  imports: [UserModule, AuthModule, RedisModule],
+  imports: [
+    RedisModule,
+    DrizzleModule,
+    JwtModule,
+    UserModule,
+    AuthModule,
+    ProjectModule,
+  ],
   controllers: [],
   providers: [],
 })
