@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
-import * as cookie from 'cookie';
+import cookie from 'cookie';
 import { ITokenPayload } from 'jsonwebtoken';
 import { JwtExpiry, JwtService } from '../jwt/jwt.service';
 import { RedisPrefix, RedisService } from '../redis/redis.service';
@@ -45,7 +45,6 @@ export class AuthMiddleware implements NestMiddleware {
 
   async use(req: RequestWithAuthContext, res: Response, next: NextFunction) {
     this.logger.log(AuthMiddleware.name);
-
     req.authContext = {
       userId: undefined,
       authStatus: AuthStatus.NONE,
@@ -56,8 +55,6 @@ export class AuthMiddleware implements NestMiddleware {
     const cookies = cookie.parse(req.headers.cookie ?? '');
     const authToken: string = cookies['authToken'];
     const refreshToken: string = cookies['refreshToken'];
-    this.logger.log('authToken: ' + authToken);
-
     if (!authToken || !refreshToken) {
       req.authContext = {
         userId: undefined,

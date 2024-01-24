@@ -24,7 +24,7 @@ export const users = pgTable('users', {
     .default(UserStatus.ACTIVE),
   firstName: varchar('first_name', { length: 256 }).notNull(),
   lastName: varchar('last_name', { length: 256 }).notNull(),
-  createAt: timestamp('created_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
@@ -43,7 +43,7 @@ export const projects = pgTable('projects', {
 
   title: text('title').notNull(),
   stackOrder: text('stack_order').array(),
-  createAt: timestamp('created_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
@@ -67,7 +67,7 @@ export const stacks = pgTable('stacks', {
   title: text('title').notNull(),
   color: varchar('color', { length: 256 }).notNull(),
   taskOrder: text('task_order').array(),
-  createAt: timestamp('created_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
@@ -100,7 +100,7 @@ export const tasks = pgTable('tasks', {
   dueDate: timestamp('dueDate'),
   timeEstimate: interval('timeEstimate'),
   subTaskOrder: text('sub_task_order').array(),
-  createAt: timestamp('created_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
@@ -126,7 +126,7 @@ export const subTasks = pgTable('subTasks', {
 
   title: text('title'),
   completed: boolean('completed'),
-  createAt: timestamp('created_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
