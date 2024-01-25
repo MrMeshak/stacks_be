@@ -33,7 +33,7 @@ export class AuthService {
     if (!match) throw new InvalidCredentialsError('Invalid Credentials');
 
     const authToken = this.jwtService.createAuthToken(user.id);
-    const refreshToken = this.jwtService.createRefreshToken(user.id);
+    const refreshToken = this.jwtService.createRefreshToken(authToken);
     await this.redisService.set(
       RedisPrefix.RefreshToken,
       user.id,
