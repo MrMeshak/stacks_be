@@ -35,7 +35,7 @@ export class AuthController {
           httpOnly: true,
           sameSite: 'strict',
           secure: true,
-          maxAge: JwtExpiry.AUTH_TOKEN_EXPIRY,
+          maxAge: JwtExpiry.REFRESH_TOKEN_EXPIRY,
         }),
         cookie.serialize('refreshToken', refreshToken, {
           httpOnly: true,
