@@ -1,11 +1,8 @@
 import postgres from 'postgres';
-import { PostgresJsDatabase, drizzle } from 'drizzle-orm/postgres-js';
+import { drizzle } from 'drizzle-orm/postgres-js';
 import * as schema from './schema';
-import { FactoryProvider } from '@nestjs/common';
 
-export const drizzleProvider: FactoryProvider<
-  PostgresJsDatabase<typeof schema>
-> = {
+export const drizzleProvider = {
   provide: 'DrizzleClient',
   useFactory: async () => {
     const queryClient = postgres(process.env.DB_URL);

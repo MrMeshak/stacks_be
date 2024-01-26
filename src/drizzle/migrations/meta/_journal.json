@@ -43,20 +43,6 @@
       "when": 1705898663128,
       "tag": "0005_regular_microbe",
       "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "5",
-      "when": 1706030561546,
-      "tag": "0006_eminent_metal_master",
-      "breakpoints": true
-    },
-    {
-      "idx": 7,
-      "version": "5",
-      "when": 1706032017697,
-      "tag": "0007_gifted_winter_soldier",
-      "breakpoints": true
     }
   ]
 }

@@ -12,14 +12,12 @@ import {
 } from 'src/utils/base/errors';
 import { randomUUID } from 'crypto';
 import { JwtService } from 'src/jwt/jwt.service';
-import { RedisPrefix, RedisService } from 'src/redis/redis.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     @Inject('DrizzleClient')
     private readonly db: PostgresJsDatabase<typeof schema>,
-    private readonly redisService: RedisService,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -34,11 +32,6 @@ export class AuthService {
 
     const authToken = this.jwtService.createAuthToken(user.id);
     const refreshToken = this.jwtService.createRefreshToken(user.id);
-    await this.redisService.set(
-      RedisPrefix.RefreshToken,
-      user.id,
-      refreshToken,
-    );
 
     return {
       authToken,
