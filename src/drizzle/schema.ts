@@ -9,14 +9,22 @@ import {
   boolean,
 } from 'drizzle-orm/pg-core';
 
+export enum UserStatus {
+  ACTIVE = 'ACTIVE',
+  SUSPENDED = 'SUSPENDED',
+}
+
 export const users = pgTable('users', {
   id: uuid('id').primaryKey(),
 
   email: varchar('email', { length: 256 }).notNull().unique(),
   password: varchar('password', { length: 256 }).notNull(),
+  userStatus: varchar('user_status', { length: 256 })
+    .notNull()
+    .default(UserStatus.ACTIVE),
   firstName: varchar('first_name', { length: 256 }).notNull(),
   lastName: varchar('last_name', { length: 256 }).notNull(),
-  createAt: timestamp('created_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
@@ -35,7 +43,7 @@ export const projects = pgTable('projects', {
 
   title: text('title').notNull(),
   stackOrder: text('stack_order').array(),
-  createAt: timestamp('created_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
@@ -59,7 +67,7 @@ export const stacks = pgTable('stacks', {
   title: text('title').notNull(),
   color: varchar('color', { length: 256 }).notNull(),
   taskOrder: text('task_order').array(),
-  createAt: timestamp('created_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
@@ -92,7 +100,7 @@ export const tasks = pgTable('tasks', {
   dueDate: timestamp('dueDate'),
   timeEstimate: interval('timeEstimate'),
   subTaskOrder: text('sub_task_order').array(),
-  createAt: timestamp('created_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
@@ -118,7 +126,7 @@ export const subTasks = pgTable('subTasks', {
 
   title: text('title'),
   completed: boolean('completed'),
-  createAt: timestamp('created_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
