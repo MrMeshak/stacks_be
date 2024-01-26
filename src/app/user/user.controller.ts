@@ -2,6 +2,7 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Get,
+  NotFoundException,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -21,6 +22,9 @@ export class UserController {
   @Get('/me')
   async me(@AuthContextDec() authContext: AuthContext) {
     const user = await this.userService.findUserById(authContext.userId);
+    if (!user) {
+      throw new NotFoundException('User could not be found');
+    }
     return plainToInstance(UserResponseDto, user);
   }
 }
