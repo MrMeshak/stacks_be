@@ -45,6 +45,7 @@ export class AuthMiddleware implements NestMiddleware {
 
   async use(req: RequestWithAuthContext, res: Response, next: NextFunction) {
     this.logger.log(AuthMiddleware.name);
+
     req.authContext = {
       userId: undefined,
       authStatus: AuthStatus.NONE,
@@ -166,13 +167,15 @@ export class AuthMiddleware implements NestMiddleware {
       cookie.serialize('authToken', newAuthToken, {
         httpOnly: true,
         sameSite: 'strict',
-        secure: true,
-        maxAge: JwtExpiry.AUTH_TOKEN_EXPIRY,
+        secure: false,
+        path: '/',
+        maxAge: JwtExpiry.REFRESH_TOKEN_EXPIRY,
       }),
       cookie.serialize('refreshToken', newRefreshToken, {
         httpOnly: true,
         sameSite: 'strict',
-        secure: true,
+        secure: false,
+        path: '/',
         maxAge: JwtExpiry.REFRESH_TOKEN_EXPIRY,
       }),
     ]);

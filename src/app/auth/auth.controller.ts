@@ -34,13 +34,15 @@ export class AuthController {
         cookie.serialize('authToken', authToken, {
           httpOnly: true,
           sameSite: 'strict',
-          secure: true,
+          secure: false,
+          path: '/',
           maxAge: JwtExpiry.REFRESH_TOKEN_EXPIRY,
         }),
         cookie.serialize('refreshToken', refreshToken, {
           httpOnly: true,
           sameSite: 'strict',
-          secure: true,
+          secure: false,
+          path: '/',
           maxAge: JwtExpiry.REFRESH_TOKEN_EXPIRY,
         }),
       ]);
