@@ -106,6 +106,8 @@ export class AuthMiddleware implements NestMiddleware {
     }
 
     if (decodedRefreshToken.sub !== authToken) {
+      console.log('AuthToken: ', authToken);
+      console.log('RefreshToken', decodedRefreshToken.sub);
       req.authContext = {
         userId: undefined,
         authStatus: AuthStatus.AUTH_REFRESH_MISMATCH,
@@ -156,7 +158,7 @@ export class AuthMiddleware implements NestMiddleware {
     }
 
     const newAuthToken = this.jwtService.createAuthToken(userId);
-    const newRefreshToken = this.jwtService.createRefreshToken(authToken);
+    const newRefreshToken = this.jwtService.createRefreshToken(newAuthToken);
     await this.redisService.set(
       RedisPrefix.RefreshToken,
       userId,
