@@ -3,6 +3,10 @@ import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import * as schema from '../../drizzle/schema';
 import { projects } from '../../drizzle/schema';
 import { and, eq } from 'drizzle-orm';
+import { CreateProjectDto } from './dto/createProject.dto';
+import { randomUUID } from 'crypto';
+
+type NewProject = typeof projects.$inferInsert;
 
 @Injectable()
 export class ProjectService {
@@ -26,5 +30,11 @@ export class ProjectService {
         },
       },
     });
+  }
+
+  async createProject(userId: string, data: CreateProjectDto) {
+    await this.db
+      .insert(projects)
+      .values({ ...data, id: randomUUID(), userId: userId });
   }
 }

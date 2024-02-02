@@ -53,6 +53,7 @@ export class AuthController {
           cause: error,
         });
       }
+      throw error;
     }
   }
 
@@ -68,6 +69,7 @@ export class AuthController {
           cause: error,
         });
       }
+      throw error;
     }
   }
 
