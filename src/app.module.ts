@@ -6,6 +6,7 @@ import { AuthMiddleware } from './middleware/auth.middleware';
 import { ProjectModule } from './app/project/project.module';
 import { DrizzleModule } from './drizzle/drizzle.module';
 import { JwtModule } from './jwt/jwt.module';
+import { StackModule } from './app/stack/stack.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { JwtModule } from './jwt/jwt.module';
     UserModule,
     AuthModule,
     ProjectModule,
+    StackModule,
   ],
   controllers: [],
   providers: [],

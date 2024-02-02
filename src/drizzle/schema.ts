@@ -71,7 +71,7 @@ export const stacks = pgTable('stacks', {
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
-export const stacksRelations = relations(stacks, ({ one }) => ({
+export const stacksRelations = relations(stacks, ({ one, many }) => ({
   user: one(users, {
     fields: [stacks.userId],
     references: [users.id],
@@ -80,6 +80,7 @@ export const stacksRelations = relations(stacks, ({ one }) => ({
     fields: [stacks.projectId],
     references: [projects.id],
   }),
+  tasks: many(tasks),
 }));
 
 export const tasks = pgTable('tasks', {
