@@ -13,6 +13,7 @@ export class AuthGuard implements CanActivate {
   canActivate(context: ExecutionContext) {
     this.logger.log(AuthGuard.name);
     const req = context.switchToHttp().getRequest<RequestWithAuthContext>();
+    this.logger.log(JSON.stringify(req.authContext));
     if (!req.authContext?.userId) return false;
 
     return true;
