@@ -5,6 +5,7 @@ import { projects } from '../../drizzle/schema';
 import { and, eq } from 'drizzle-orm';
 import { CreateProjectDto } from './dto/createProject.dto';
 import { randomUUID } from 'crypto';
+import { updateProjectDto } from './dto/updateProject.dto';
 
 type NewProject = typeof projects.$inferInsert;
 
@@ -36,6 +37,17 @@ export class ProjectService {
     await this.db
       .insert(projects)
       .values({ ...data, id: randomUUID(), userId: userId });
+  }
+
+  async updateProject(
+    userId: string,
+    projectId: string,
+    data: updateProjectDto,
+  ) {
+    await this.db
+      .update(projects)
+      .set({ title: data.title })
+      .where(and(eq(projects.id, projectId), eq(projects.userId, userId)));
   }
 
   async deleteProject(userId: string, projectId: string) {

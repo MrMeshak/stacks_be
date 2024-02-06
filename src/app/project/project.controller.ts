@@ -7,6 +7,7 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from 'src/guards/auth.guard';
@@ -14,6 +15,7 @@ import { AuthContext } from 'src/middleware/auth.middleware';
 import { AuthContextDec } from 'src/utils/decorators/auth-context.decorator';
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto/createProject.dto';
+import { updateProjectDto } from './dto/updateProject.dto';
 
 @UseGuards(AuthGuard)
 @Controller('projects')
@@ -53,6 +55,23 @@ export class ProjectController {
   ) {
     try {
       await this.projectService.createProject(authContext.userId, data);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Put(':projectId')
+  async updateProject(
+    @Param('projectId', ParseUUIDPipe) projectId: string,
+    @Body() data: updateProjectDto,
+    @AuthContextDec() authContext: AuthContext,
+  ) {
+    try {
+      await this.projectService.updateProject(
+        authContext.userId,
+        projectId,
+        data,
+      );
     } catch (error) {
       throw error;
     }
