@@ -39,7 +39,7 @@ export const projects = pgTable('projects', {
   id: uuid('id').primaryKey(),
   userId: uuid('user_id')
     .notNull()
-    .references(() => users.id),
+    .references(() => users.id, { onDelete: 'cascade' }),
 
   title: text('title').notNull(),
   stackOrder: text('stack_order').array(),
@@ -62,7 +62,7 @@ export const stacks = pgTable('stacks', {
     .references(() => users.id),
   projectId: uuid('project_id')
     .notNull()
-    .references(() => projects.id),
+    .references(() => projects.id, { onDelete: 'cascade' }),
 
   title: text('title').notNull(),
   color: varchar('color', { length: 256 }).notNull(),
@@ -90,7 +90,7 @@ export const tasks = pgTable('tasks', {
     .references(() => users.id),
   stackId: uuid('stack_id')
     .notNull()
-    .references(() => stacks.id),
+    .references(() => stacks.id, { onDelete: 'cascade' }),
 
   title: text('title').notNull(),
   description: text('description'),
@@ -123,7 +123,7 @@ export const subTasks = pgTable('subTasks', {
     .references(() => users.id),
   taskId: uuid('task_id')
     .notNull()
-    .references(() => tasks.id),
+    .references(() => tasks.id, { onDelete: 'cascade' }),
 
   title: text('title'),
   completed: boolean('completed'),

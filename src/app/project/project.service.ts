@@ -37,4 +37,10 @@ export class ProjectService {
       .insert(projects)
       .values({ ...data, id: randomUUID(), userId: userId });
   }
+
+  async deleteProject(userId: string, projectId: string) {
+    return await this.db
+      .delete(projects)
+      .where(and(eq(projects.id, projectId), eq(projects.userId, userId)));
+  }
 }

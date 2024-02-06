@@ -1,14 +1,12 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
-  HttpCode,
-  HttpStatus,
   NotFoundException,
   Param,
   ParseUUIDPipe,
   Post,
-  Req,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from 'src/guards/auth.guard';
@@ -55,6 +53,18 @@ export class ProjectController {
   ) {
     try {
       await this.projectService.createProject(authContext.userId, data);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Delete(':projectId')
+  async deleteProject(
+    @Param('projectId', ParseUUIDPipe) projectId: string,
+    @AuthContextDec() authContext: AuthContext,
+  ) {
+    try {
+      await this.projectService.deleteProject(authContext.userId, projectId);
     } catch (error) {
       throw error;
     }
