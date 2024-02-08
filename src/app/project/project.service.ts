@@ -7,8 +7,6 @@ import { CreateProjectDto } from './dto/createProject.dto';
 import { randomUUID } from 'crypto';
 import { updateProjectDto } from './dto/updateProject.dto';
 
-type NewProject = typeof projects.$inferInsert;
-
 @Injectable()
 export class ProjectService {
   constructor(
@@ -46,7 +44,7 @@ export class ProjectService {
   ) {
     await this.db
       .update(projects)
-      .set({ title: data.title })
+      .set({ title: data.title, updatedAt: new Date() })
       .where(and(eq(projects.id, projectId), eq(projects.userId, userId)));
   }
 
