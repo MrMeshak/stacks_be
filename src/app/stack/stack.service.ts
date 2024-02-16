@@ -5,6 +5,7 @@ import { projects, stacks } from '../../drizzle/schema';
 import { and, eq, sql } from 'drizzle-orm';
 import { CreateStackDto } from './dto/createStack.dto';
 import { randomUUID } from 'crypto';
+import { UpdateStackDto } from './dto/updateStack.dto';
 
 @Injectable()
 export class StackService {
@@ -39,6 +40,30 @@ export class StackService {
         userId: userId,
         projectId: projectId,
       });
+    });
+  }
+
+  async deleteStack(userId: string, stackId: string) {
+    const stackData = await this.db.query.stacks.findFirst({
+      where: and(eq(stacks.id, stackId), eq(stacks.userId, userId)),
+    });
+
+    await this.db.transaction(async (tx) => {
+      await tx
+        .update(projects)
+        .set({
+          stackOrder: sql`array_remove(${projects.stackOrder}, ${stackId})`,
+        })
+        .where(
+          and(
+            eq(projects.id, stackData.projectId),
+            eq(projects.userId, userId),
+          ),
+        );
+
+      await tx
+        .delete(stacks)
+        .where(and(eq(stacks.id, stackId), eq(stacks.userId, userId)));
     });
   }
 }

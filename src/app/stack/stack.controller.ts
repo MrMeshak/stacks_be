@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -45,6 +46,18 @@ export class StackController {
   ) {
     try {
       await this.stackService.createStack(authContext.userId, projectId, data);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Delete(':stackId')
+  async deleteStack(
+    @Param('stackId', ParseUUIDPipe) stackId: string,
+    @AuthContextDec() authContext: AuthContext,
+  ) {
+    try {
+      await this.stackService.deleteStack(authContext.userId, stackId);
     } catch (error) {
       throw error;
     }
