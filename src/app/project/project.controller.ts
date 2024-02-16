@@ -6,7 +6,9 @@ import {
   NotFoundException,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from 'src/guards/auth.guard';
@@ -14,6 +16,8 @@ import { AuthContext } from 'src/middleware/auth.middleware';
 import { AuthContextDec } from 'src/utils/decorators/auth-context.decorator';
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto/createProject.dto';
+import { UpdateProjectDto } from './dto/updateProject.dto';
+import { PatchProjectDto } from './dto/patchProject.dto';
 
 @UseGuards(AuthGuard)
 @Controller('projects')
@@ -53,6 +57,40 @@ export class ProjectController {
   ) {
     try {
       await this.projectService.createProject(authContext.userId, data);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Put(':projectId')
+  async updateProject(
+    @Param('projectId', ParseUUIDPipe) projectId: string,
+    @Body() data: UpdateProjectDto,
+    @AuthContextDec() authContext: AuthContext,
+  ) {
+    try {
+      await this.projectService.updateProject(
+        authContext.userId,
+        projectId,
+        data,
+      );
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Patch(':projectId')
+  async patchProject(
+    @Param('projectId', ParseUUIDPipe) projectId: string,
+    @Body() data: PatchProjectDto,
+    @AuthContextDec() authContext: AuthContext,
+  ) {
+    try {
+      await this.projectService.patchProject(
+        authContext.userId,
+        projectId,
+        data,
+      );
     } catch (error) {
       throw error;
     }

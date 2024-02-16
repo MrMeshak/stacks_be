@@ -24,8 +24,8 @@ export const users = pgTable('users', {
     .default(UserStatus.ACTIVE),
   firstName: varchar('first_name', { length: 256 }).notNull(),
   lastName: varchar('last_name', { length: 256 }).notNull(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow().notNull(),
 });
 
 export const userRelations = relations(users, ({ many }) => ({
@@ -43,8 +43,8 @@ export const projects = pgTable('projects', {
 
   title: text('title').notNull(),
   stackOrder: text('stack_order').array(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow().notNull(),
 });
 
 export const projectsRelations = relations(projects, ({ one, many }) => ({
@@ -67,8 +67,8 @@ export const stacks = pgTable('stacks', {
   title: text('title').notNull(),
   color: varchar('color', { length: 256 }).notNull(),
   taskOrder: text('task_order').array(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow().notNull(),
 });
 
 export const stacksRelations = relations(stacks, ({ one, many }) => ({
@@ -101,8 +101,8 @@ export const tasks = pgTable('tasks', {
   dueDate: timestamp('dueDate'),
   timeEstimate: interval('timeEstimate'),
   subTaskOrder: text('sub_task_order').array(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow().notNull(),
 });
 
 export const taskRelations = relations(tasks, ({ one }) => ({
@@ -127,8 +127,8 @@ export const subTasks = pgTable('subTasks', {
 
   title: text('title'),
   completed: boolean('completed'),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow().notNull(),
 });
 
 export const subTasksRelations = relations(subTasks, ({ one }) => ({

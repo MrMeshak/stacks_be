@@ -5,8 +5,8 @@ import { projects } from '../../drizzle/schema';
 import { and, eq } from 'drizzle-orm';
 import { CreateProjectDto } from './dto/createProject.dto';
 import { randomUUID } from 'crypto';
-
-type NewProject = typeof projects.$inferInsert;
+import { UpdateProjectDto } from './dto/updateProject.dto';
+import { PatchProjectDto } from './dto/patchProject.dto';
 
 @Injectable()
 export class ProjectService {
@@ -36,6 +36,24 @@ export class ProjectService {
     await this.db
       .insert(projects)
       .values({ ...data, id: randomUUID(), userId: userId });
+  }
+
+  async updateProject(
+    userId: string,
+    projectId: string,
+    data: UpdateProjectDto,
+  ) {
+    await this.db
+      .update(projects)
+      .set({ title: data.title, updatedAt: new Date() })
+      .where(and(eq(projects.id, projectId), eq(projects.userId, userId)));
+  }
+
+  async patchProject(userId: string, projectId: string, data: PatchProjectDto) {
+    await this.db
+      .update(projects)
+      .set(data)
+      .where(and(eq(projects.id, projectId), eq(projects.userId, userId)));
   }
 
   async deleteProject(userId: string, projectId: string) {
