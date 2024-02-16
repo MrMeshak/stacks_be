@@ -1,8 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import * as schema from '../../drizzle/schema';
-import { stacks } from '../../drizzle/schema';
-import { and, eq } from 'drizzle-orm';
+import { projects, stacks } from '../../drizzle/schema';
+import { and, eq, sql } from 'drizzle-orm';
+import { CreateStackDto } from './dto/createStack.dto';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class StackService {
@@ -17,6 +19,26 @@ export class StackService {
       with: {
         tasks: true,
       },
+    });
+  }
+
+  async createStack(userId: string, projectId: string, data: CreateStackDto) {
+    await this.db.transaction(async (tx) => {
+      const stackId = randomUUID();
+
+      await tx
+        .update(projects)
+        .set({
+          stackOrder: sql`array_append(${projects.stackOrder}, ${stackId})`,
+        })
+        .where(and(eq(projects.id, projectId), eq(projects.userId, userId)));
+
+      await tx.insert(stacks).values({
+        ...data,
+        id: stackId,
+        userId: userId,
+        projectId: projectId,
+      });
     });
   }
 }
