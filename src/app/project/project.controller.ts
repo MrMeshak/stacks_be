@@ -6,6 +6,7 @@ import {
   NotFoundException,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
   Put,
   UseGuards,
@@ -15,7 +16,8 @@ import { AuthContext } from 'src/middleware/auth.middleware';
 import { AuthContextDec } from 'src/utils/decorators/auth-context.decorator';
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto/createProject.dto';
-import { updateProjectDto } from './dto/updateProject.dto';
+import { UpdateProjectDto } from './dto/updateProject.dto';
+import { PatchProjectDto } from './dto/patchProject.dto';
 
 @UseGuards(AuthGuard)
 @Controller('projects')
@@ -63,11 +65,28 @@ export class ProjectController {
   @Put(':projectId')
   async updateProject(
     @Param('projectId', ParseUUIDPipe) projectId: string,
-    @Body() data: updateProjectDto,
+    @Body() data: UpdateProjectDto,
     @AuthContextDec() authContext: AuthContext,
   ) {
     try {
       await this.projectService.updateProject(
+        authContext.userId,
+        projectId,
+        data,
+      );
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Patch(':projectId')
+  async patchProject(
+    @Param('projectId', ParseUUIDPipe) projectId: string,
+    @Body() data: PatchProjectDto,
+    @AuthContextDec() authContext: AuthContext,
+  ) {
+    try {
+      await this.projectService.patchProject(
         authContext.userId,
         projectId,
         data,
