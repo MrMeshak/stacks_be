@@ -43,6 +43,13 @@ export class StackService {
     });
   }
 
+  async updateStack(userId: string, stackId: string, data: UpdateStackDto) {
+    await this.db
+      .update(stacks)
+      .set({ ...data })
+      .where(and(eq(stacks.id, stackId), eq(stacks.userId, userId)));
+  }
+
   async deleteStack(userId: string, stackId: string) {
     const stackData = await this.db.query.stacks.findFirst({
       where: and(eq(stacks.id, stackId), eq(stacks.userId, userId)),

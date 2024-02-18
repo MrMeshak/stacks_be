@@ -7,6 +7,7 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from 'src/guards/auth.guard';
@@ -15,6 +16,7 @@ import { AuthContextDec } from 'src/utils/decorators/auth-context.decorator';
 import { AuthContext } from 'src/middleware/auth.middleware';
 import { CreateStackDto } from './dto/createStack.dto';
 import { AuthController } from '../auth/auth.controller';
+import { UpdateStackDto } from './dto/updateStack.dto';
 
 @UseGuards(AuthGuard)
 @Controller('stacks')
@@ -46,6 +48,19 @@ export class StackController {
   ) {
     try {
       await this.stackService.createStack(authContext.userId, projectId, data);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Put(':stackId')
+  async updateStack(
+    @Param('stackId', ParseUUIDPipe) stackId: string,
+    @Body() data: UpdateStackDto,
+    @AuthContextDec() authContext: AuthContext,
+  ) {
+    try {
+      await this.stackService.updateStack(authContext.userId, stackId, data);
     } catch (error) {
       throw error;
     }
