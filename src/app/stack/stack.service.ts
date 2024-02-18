@@ -17,9 +17,6 @@ export class StackService {
   async findStackById(userId: string, stackId: string) {
     return await this.db.query.stacks.findFirst({
       where: and(eq(stacks.id, stackId), eq(stacks.userId, userId)),
-      with: {
-        tasks: true,
-      },
     });
   }
 
