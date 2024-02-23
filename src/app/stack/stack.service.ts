@@ -6,6 +6,7 @@ import { and, eq, sql } from 'drizzle-orm';
 import { CreateStackDto } from './dto/createStack.dto';
 import { randomUUID } from 'crypto';
 import { UpdateStackDto } from './dto/updateStack.dto';
+import { NotFoundError } from '../../utils/base/errors';
 
 @Injectable()
 export class StackService {
@@ -72,5 +73,44 @@ export class StackService {
         .delete(stacks)
         .where(and(eq(stacks.id, stackId), eq(stacks.userId, userId)));
     });
+  }
+
+  async stackMoveToStack(
+    userId: string,
+    activeStackId: string,
+    overStackId: string,
+    projectId: string,
+  ) {
+    const project = await this.db.query.projects.findFirst({
+      where: and(eq(projects.id, projectId), eq(projects.userId, userId)),
+    });
+
+    if (!project) {
+      throw new NotFoundError('Project could not be found');
+    }
+
+    const stackOrder = [...project.stackOrder];
+
+    const activeStackIndex = stackOrder.findIndex(
+      (stackId) => stackId === activeStackId,
+    );
+    const overStackIndex = stackOrder.findIndex(
+      (stackId) => stackId === overStackId,
+    );
+
+    if (activeStackIndex === -1 || overStackIndex === -1) {
+      return new NotFoundError(
+        'Active stack or over stack could not be found in this project',
+      );
+    }
+    stackOrder.splice(activeStackIndex, 1);
+    stackOrder.splice(overStackIndex, 1, activeStackId, overStackId);
+
+    await this.db
+      .update(projects)
+      .set({
+        stackOrder: stackOrder,
+      })
+      .where(and(eq(projects.id, projectId), eq(projects.userId, userId)));
   }
 }
