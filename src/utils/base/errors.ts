@@ -15,3 +15,9 @@ export class NotFoundError extends Error {
     super(message);
   }
 }
+
+export class InvalidInputError extends Error {
+  constructor(message: string = 'Invalid Input') {
+    super(message);
+  }
+}

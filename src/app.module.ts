@@ -8,6 +8,7 @@ import { DrizzleModule } from './drizzle/drizzle.module';
 import { JwtModule } from './jwt/jwt.module';
 import { StackModule } from './app/stack/stack.module';
 import { TaskModule } from './app/task/task.module';
+import { DndModule } from './app/dnd/dnd.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { TaskModule } from './app/task/task.module';
     ProjectModule,
     StackModule,
     TaskModule,
+    DndModule,
   ],
   controllers: [],
   providers: [],
