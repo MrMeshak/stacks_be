@@ -5,7 +5,6 @@ export class StackMoveDto {
   projectId: string;
 
   @IsArray()
-  @ValidateNested({ each: true })
-  @IsUUID()
+  @IsUUID('all', { each: true })
   stackOrder: string[];
 }
