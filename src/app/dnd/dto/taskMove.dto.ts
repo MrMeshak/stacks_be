@@ -1,4 +1,4 @@
-import { IsArray, IsUUID, ValidateNested } from 'class-validator';
+import { IsArray, IsUUID } from 'class-validator';
 
 export class TaskMoveDto {
   @IsUUID()
@@ -8,15 +8,13 @@ export class TaskMoveDto {
   fromStackId: string;
 
   @IsArray()
-  @ValidateNested({ each: true })
-  @IsUUID()
+  @IsUUID('all', { each: true })
   fromStackTaskOrder: string[];
 
   @IsUUID()
   toStackId: string;
 
   @IsArray()
-  @ValidateNested({ each: true })
-  @IsUUID()
+  @IsUUID('all', { each: true })
   toStackTaskOrder: string[];
 }
