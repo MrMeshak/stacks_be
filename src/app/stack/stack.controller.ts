@@ -8,7 +8,6 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
-  Query,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from 'src/guards/auth.guard';
@@ -16,9 +15,7 @@ import { StackService } from './stack.service';
 import { AuthContextDec } from 'src/utils/decorators/auth-context.decorator';
 import { AuthContext } from 'src/middleware/auth.middleware';
 import { CreateStackDto } from './dto/createStack.dto';
-import { AuthController } from '../auth/auth.controller';
 import { UpdateStackDto } from './dto/updateStack.dto';
-import { NotFoundError } from 'src/utils/base/errors';
 
 @UseGuards(AuthGuard)
 @Controller('stacks')
@@ -76,28 +73,6 @@ export class StackController {
     try {
       await this.stackService.deleteStack(authContext.userId, stackId);
     } catch (error) {
-      throw error;
-    }
-  }
-
-  @Post('dnd/moveStackToStack?')
-  async moveStackToStack(
-    @Query('activeStackId', ParseUUIDPipe) activeStackId: string,
-    @Query('overStackId', ParseUUIDPipe) overStackId: string,
-    @Query('projectId', ParseUUIDPipe) projectId: string,
-    @AuthContextDec() authContext: AuthContext,
-  ) {
-    try {
-      await this.stackService.stackMoveToStack(
-        authContext.userId,
-        activeStackId,
-        overStackId,
-        projectId,
-      );
-    } catch (error) {
-      if (error instanceof NotFoundError) {
-        throw new NotFoundException(error.message);
-      }
       throw error;
     }
   }
