@@ -16,6 +16,7 @@ import { AuthContextDec } from 'src/utils/decorators/auth-context.decorator';
 import { AuthContext } from 'src/middleware/auth.middleware';
 import { CreateStackDto } from './dto/createStack.dto';
 import { UpdateStackDto } from './dto/updateStack.dto';
+import { NotFoundError } from 'src/utils/base/errors';
 
 @UseGuards(AuthGuard)
 @Controller('stacks')
@@ -73,6 +74,9 @@ export class StackController {
     try {
       await this.stackService.deleteStack(authContext.userId, stackId);
     } catch (error) {
+      if (error instanceof NotFoundError) {
+        throw new NotFoundException(error.message);
+      }
       throw error;
     }
   }

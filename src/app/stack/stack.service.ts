@@ -53,6 +53,10 @@ export class StackService {
       where: and(eq(stacks.id, stackId), eq(stacks.userId, userId)),
     });
 
+    if (!stackData) {
+      throw new NotFoundError('Stack could not be found');
+    }
+
     await this.db.transaction(async (tx) => {
       await tx
         .update(projects)
