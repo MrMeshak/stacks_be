@@ -9,6 +9,8 @@ import { JwtModule } from './jwt/jwt.module';
 import { StackModule } from './app/stack/stack.module';
 import { TaskModule } from './app/task/task.module';
 import { DndModule } from './app/dnd/dnd.module';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -23,7 +25,12 @@ import { DndModule } from './app/dnd/dnd.module';
     DndModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: AuthInterceptor,
+    },
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
