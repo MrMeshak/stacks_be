@@ -10,8 +10,8 @@ declare module 'jsonwebtoken' {
 }
 
 export enum JwtExpiry {
-  AUTH_TOKEN_EXPIRY = 60, // 60 * 15, //15 mins
-  REFRESH_TOKEN_EXPIRY = 60 * 1440, // 24 hours -> 1440 mins
+  AUTH_TOKEN_EXPIRY = Number(process.env.AUTH_TOKEN_EXPIRY || 60 * 15), // 60 * 15, //15 mins
+  REFRESH_TOKEN_EXPIRY = Number(process.env.REFRESH_TOKEN_EXPIRY || 60 * 1400), //60 * 1440, // 24 hours -> 1440 mins
 }
 
 @Injectable()

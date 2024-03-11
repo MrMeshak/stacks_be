@@ -19,7 +19,6 @@ export class AuthInterceptor implements NestInterceptor {
       tap(() => {
         const res = context.switchToHttp().getResponse();
         const req = context.switchToHttp().getRequest();
-        this.logger.log('AuthInterceptor');
         if (req.authContext.setNewTokens) {
           this.logger.log('set newAuthToken and set newRefreshToken');
           res.setHeader('Set-Cookie', [
