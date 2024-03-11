@@ -167,23 +167,6 @@ export class AuthMiddleware implements NestMiddleware {
       newRefreshToken,
     );
 
-    // res.setHeader('Set-Cookie', [
-    //   cookie.serialize('authToken', newAuthToken, {
-    //     httpOnly: true,
-    //     sameSite: 'strict',
-    //     secure: false,
-    //     path: '/',
-    //     maxAge: JwtExpiry.REFRESH_TOKEN_EXPIRY,
-    //   }),
-    //   cookie.serialize('refreshToken', newRefreshToken, {
-    //     httpOnly: true,
-    //     sameSite: 'strict',
-    //     secure: false,
-    //     path: '/',
-    //     maxAge: JwtExpiry.REFRESH_TOKEN_EXPIRY,
-    //   }),
-    // ]);
-
     req.authContext = {
       userId: userId,
       authStatus: AuthStatus.AUTHENTICATED,
