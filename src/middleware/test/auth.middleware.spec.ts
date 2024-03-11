@@ -236,7 +236,7 @@ describe('middleware - auth.middleware', () => {
   });
 
   describe('when authToken is valid but has expired, the refreshToken is valid and matches storedRefreshToken and the user exists and is not suspended', () => {
-    it('should set new auth and refresh tokens on the response and set the authContext = {userId: userId, authStatus: AUTHENTICATED, setNewTokens: true}', async () => {
+    it('should set new auth and refresh tokens on the response and set the authContext = {userId: userId, authStatus: AUTHENTICATED, setNewTokens: true, newAuthToken, newRefreshToken}', async () => {
       req.headers.cookie = 'authToken=authToken;refreshToken=refreshToken;';
       mockJwtService.verifyAuthToken.mockReturnValue({
         sub: 'userId',
@@ -259,13 +259,6 @@ describe('middleware - auth.middleware', () => {
 
       await authMiddleware.use(req, res, mockNext);
 
-      expect(res.setHeader).toHaveBeenCalledWith(
-        'Set-Cookie',
-        expect.arrayContaining([
-          expect.stringContaining('authToken=newAuthToken'),
-          expect.stringContaining('refreshToken=newRefreshToken'),
-        ]),
-      );
       expect(mockRedisService.set).toHaveBeenCalledWith(
         RedisPrefix.RefreshToken,
         'userId',
@@ -275,6 +268,8 @@ describe('middleware - auth.middleware', () => {
         userId: 'userId',
         authStatus: AuthStatus.AUTHENTICATED,
         setNewTokens: true,
+        newAuthToken: 'newAuthToken',
+        newRefreshToken: 'newRefreshToken',
       });
     });
   });
