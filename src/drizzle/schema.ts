@@ -42,7 +42,10 @@ export const projects = pgTable('projects', {
     .references(() => users.id, { onDelete: 'cascade' }),
 
   title: text('title').notNull(),
-  stackOrder: text('stack_order').array(),
+  stackOrder: text('stack_order')
+    .array()
+    .$default(() => [])
+    .notNull(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow().notNull(),
 });
@@ -66,7 +69,10 @@ export const stacks = pgTable('stacks', {
 
   title: text('title').notNull(),
   color: varchar('color', { length: 256 }).notNull(),
-  taskOrder: text('task_order').array(),
+  taskOrder: text('task_order')
+    .array()
+    .$default(() => [])
+    .notNull(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow().notNull(),
 });
@@ -100,7 +106,10 @@ export const tasks = pgTable('tasks', {
   startDate: timestamp('startDate'),
   dueDate: timestamp('dueDate'),
   timeEstimate: interval('timeEstimate'),
-  subTaskOrder: text('sub_task_order').array(),
+  subTaskOrder: text('sub_task_order')
+    .array()
+    .$default(() => [])
+    .notNull(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow().notNull(),
 });
