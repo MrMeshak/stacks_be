@@ -29,26 +29,6 @@ describe('middleware - auth.middleware', () => {
 
   beforeEach(async () => {
     jest.clearAllMocks();
-
-    // const moduleRef = await Test.createTestingModule({
-    //   providers: [JwtService, RedisService, drizzleProvider],
-    // })
-
-    //   .overrideProvider(JwtService)
-    //   .useValue(mockJwtService)
-    //   .overrideProvider(RedisService)
-    //   .useValue(mockRedisService)
-    //   .overrideProvider('DrizzleClient')
-    //   .useFactory({ factory: () => mockDb })
-    //   .compile();
-
-    // const jwtService = moduleRef.get<DeepMockProxy<JwtService>>(JwtService);
-    // const redisService =
-    //   moduleRef.get<DeepMockProxy<RedisService>>(RedisService);
-    // const db =
-    //   moduleRef.get<DeepMockProxy<PostgresJsDatabase<typeof schema>>>(
-    //     'DrizzleClient',
-    //   );
   });
 
   describe('when the req does not contain authToken or refreshToken', () => {
