@@ -4,10 +4,7 @@ import { Redis } from 'ioredis';
 export const redisProvider: FactoryProvider<Redis> = {
   provide: 'RedisClient',
   useFactory: async () => {
-    const redisClient = new Redis({
-      host: process.env.REDIS_HOST,
-      port: Number(process.env.REDIS_PORT),
-    });
+    const redisClient = new Redis(process.env.REDIS_URL);
     return redisClient;
   },
 };
