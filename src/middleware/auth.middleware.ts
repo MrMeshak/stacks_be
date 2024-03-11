@@ -2,7 +2,7 @@ import { Inject, Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
 import cookie from 'cookie';
 import { ITokenPayload } from 'jsonwebtoken';
-import { JwtExpiry, JwtService } from '../jwt/jwt.service';
+import { JwtService } from '../jwt/jwt.service';
 import { RedisPrefix, RedisService } from '../redis/redis.service';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import * as schema from '../drizzle/schema';
