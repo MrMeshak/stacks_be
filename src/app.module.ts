@@ -11,6 +11,7 @@ import { TaskModule } from './app/task/task.module';
 import { DndModule } from './app/dnd/dnd.module';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -24,7 +25,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     TaskModule,
     DndModule,
   ],
-  controllers: [],
+  controllers: [AppController],
   providers: [
     {
       provide: APP_INTERCEPTOR,

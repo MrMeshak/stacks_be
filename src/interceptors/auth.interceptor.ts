@@ -25,7 +25,7 @@ export class AuthInterceptor implements NestInterceptor {
             cookie.serialize('authToken', req.authContext.newAuthToken || '', {
               httpOnly: true,
               sameSite: 'strict',
-              secure: false,
+              secure: true,
               path: '/',
               maxAge: JwtExpiry.REFRESH_TOKEN_EXPIRY,
             }),
@@ -35,7 +35,7 @@ export class AuthInterceptor implements NestInterceptor {
               {
                 httpOnly: true,
                 sameSite: 'strict',
-                secure: false,
+                secure: true,
                 path: '/',
                 maxAge: JwtExpiry.REFRESH_TOKEN_EXPIRY,
               },
