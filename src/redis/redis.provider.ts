@@ -6,6 +6,9 @@ export const redisProvider: FactoryProvider<Redis> = {
   useFactory: async () => {
     const redisClient = new Redis(
       process.env.REDIS_URL || 'redis://red-cnn807f109ks73fveg6g:6379',
+      {
+        family: 0,
+      },
     );
     return redisClient;
   },
